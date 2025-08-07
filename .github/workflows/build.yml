@@ -1,7 +1,11 @@
 name: CI For Maek AE2 Better
 on:
   push:
-    tags: [ '*' ]
+    branches:
+      - dev-1.20.1
+    paths-ignore:
+      - 'README.md'
+      - '.github/**'
 
 jobs:
   build:
