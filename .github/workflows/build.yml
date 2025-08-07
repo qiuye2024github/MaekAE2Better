@@ -1,4 +1,4 @@
-name: CI For Maek AE2 Batter
+name: CI For Maek AE2 Better
 on:
   push:
     branches:

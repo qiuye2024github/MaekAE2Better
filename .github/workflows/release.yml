@@ -1,4 +1,4 @@
-name: Auto publish for Maek AE2 Batter
+name: Auto publish for Maek AE2 Better
 on:
   push:
     tags: [ '*' ]
