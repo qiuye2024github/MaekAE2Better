@@ -61,7 +61,7 @@ jobs:
         id: get_ae2_version
         run: |
           ae2_version=$(grep '^ae2_version=' gradle.properties | cut -d'=' -f2)
-          echo "ae2_version=ae2_version" >> $GITHUB_OUTPUT
+          echo "ae2_version=$ae2_version" >> $GITHUB_OUTPUT
 
       - name: Release
         id: release
