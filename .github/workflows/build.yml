@@ -36,6 +36,9 @@ jobs:
       - name: Build with Gradle
         uses: gradle/actions/setup-gradle@v3
 
+      - name: spotlessApply
+        run: ./gradlew spotlessApply
+
       - name: RunData
         run: ./gradlew rundata
 

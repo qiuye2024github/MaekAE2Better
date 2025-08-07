@@ -31,6 +31,9 @@ jobs:
       - name: Build with Gradle
         uses: gradle/actions/setup-gradle@v3
 
+      - name: spotlessApply
+        run: ./gradlew spotlessApply
+
       - name: RunData
         run: ./gradlew rundata
 
@@ -51,7 +54,7 @@ jobs:
           echo version=$MESSAGE >> $GITHUB_OUTPUT
 
       - name: Get AE2 Version
-        id: get_ae3_version
+        id: get_ae2_version
         run: |
           ae2_version=$(grep '^ae2_version=' gradle.properties | cut -d'=' -f2)
           echo "ae2_version=$gtceu_version" >> $GITHUB_OUTPUT
@@ -64,11 +67,11 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           files: |
             build/libs/!(*-@(dev|sources|javadoc)).jar
-          curseforge-id: 1104310
-          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
-          curseforge-changelog: ${{ github.event.head_commit.message }}
-          curseforge-game-versions: "1.20.1"
-          curseforge-release-type: release
+#          curseforge-id: 1104310
+#          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
+#          curseforge-changelog: ${{ github.event.head_commit.message }}
+#          curseforge-game-versions: "1.20.1"
+#          curseforge-release-type: release
           name: '[AE2${{ steps.get_ae2_version.outputs.gtceu_version }}]MAEB-${{ github.ref_name }}.jar'
           version: ${{ github.ref_name }}
           loaders: |
