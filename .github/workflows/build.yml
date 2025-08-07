@@ -1,4 +1,4 @@
-name: CI For GTMThings
+name: CI For Maek AE2 Batter
 on:
   push:
     branches:
