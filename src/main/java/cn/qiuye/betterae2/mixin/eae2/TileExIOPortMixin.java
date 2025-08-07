@@ -85,8 +85,9 @@ public class TileExIOPortMixin extends IOPortBlockEntity implements IUpgradeable
 
     @Unique
     private static long betterae2$getItemsToMove(int speedUpgrades, int superSpeedUpgrades) {
-        int result = 0;
+        int result = 1;
         int speed = 16;
+        long itemsToMove;
 
         if (speedUpgrades > 0 && superSpeedUpgrades == 0) {
             switch (speedUpgrades) {
@@ -114,7 +115,7 @@ public class TileExIOPortMixin extends IOPortBlockEntity implements IUpgradeable
             }
         }
 
-        long itemsToMove = (long) Math.pow(speed, result);
+        itemsToMove = (long) Math.pow(speed, result);
         return itemsToMove;
     }
 }

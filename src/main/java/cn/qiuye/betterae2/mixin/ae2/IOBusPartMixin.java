@@ -19,7 +19,7 @@ public class IOBusPartMixin implements IUpgradeableObject {
     @Overwrite(remap = false)
     protected int getOperationsPerTick() {
         int var1 = 2;
-        double result;
+        double result = 1;
         int finalvalue;
         int speedUpgrades = getInstalledUpgrades(AEItems.SPEED_CARD);
         int superSpeedUpgrades = getInstalledUpgrades(BAE2Items.SUPER_SPEED_CARD);
@@ -44,8 +44,6 @@ public class IOBusPartMixin implements IUpgradeableObject {
                 case 4 -> 7.5;
                 default -> 4.5;
             };
-        } else {
-            result = 1;
         }
         finalvalue = (int) (Math.pow(var1, result));
         return finalvalue;
