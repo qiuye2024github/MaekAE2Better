@@ -2,7 +2,7 @@ name: CI For Maek AE2 Batter
 on:
   push:
     branches:
-      - main
+      - 1.20.1
     paths-ignore:
       - 'README.md'
       - '.github/**'
