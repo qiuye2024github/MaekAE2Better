@@ -75,7 +75,7 @@ jobs:
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
           modrinth-changelog: ${{ github.event.head_commit.message }}
           modrinth-game-versions: "1.20.1"
-          curseforge-release-type: release
+          modrinth-release-type: release
           curseforge-id: 1305823
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
           curseforge-changelog: ${{ github.event.head_commit.message }}
