@@ -61,7 +61,7 @@ jobs:
         id: get_ae2_version
         run: |
           ae2_version=$(grep '^ae2_version=' gradle.properties | cut -d'=' -f2)
-          echo "ae2_version=$gtceu_version" >> $GITHUB_OUTPUT
+          echo "ae2_version=ae2_version" >> $GITHUB_OUTPUT
 
       - name: Release
         id: release
@@ -71,12 +71,12 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           files: |
             build/libs/!(*-@(dev|sources|javadoc)).jar
-#          curseforge-id: 1104310
-#          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
-#          curseforge-changelog: ${{ github.event.head_commit.message }}
-#          curseforge-game-versions: "1.20.1"
-#          curseforge-release-type: release
-          name: '[AE2${{ steps.get_ae2_version.outputs.gtceu_version }}]MAEB-${{ github.ref_name }}.jar'
+          #          curseforge-id: 1104310
+          #          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
+          #          curseforge-changelog: ${{ github.event.head_commit.message }}
+          #          curseforge-game-versions: "1.20.1"
+          #          curseforge-release-type: release
+          name: '[AE2${{ steps.get_ae2_version.outputs.ae2_version }}]MakeAE2Better-${{ steps.var.outputs.version }}.jar'
           version: ${{ github.ref_name }}
           loaders: |
             forge
