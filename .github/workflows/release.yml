@@ -2,7 +2,7 @@ name: Auto publish for Maek AE2 Better
 on:
   pull_request:
     branches:
-      - 1.20.1
+    - 1.20.1
     paths-ignore:
       - 'README.md'
       - '.github/**'
@@ -57,12 +57,6 @@ jobs:
           MESSAGE=$(ls build/libs/* | grep sources.jar -v | grep shadow.jar -v | grep slim.jar -v | awk -F '${{ steps.properties.outputs.mod_id }}-|.jar' '{print $2}')
           echo version=$MESSAGE >> $GITHUB_OUTPUT
 
-      - name: Get AE2 Version
-        id: get_ae2_version
-        run: |
-          ae2_version=$(grep '^ae2_version=' gradle.properties | cut -d'=' -f2)
-          echo "ae2_version=$ae2_version" >> $GITHUB_OUTPUT
-
       - name: Release
         id: release
         uses: Kir-Antipov/mc-publish@v3.3.0
@@ -84,15 +78,15 @@ jobs:
           files: |
             build/libs/!(*-@(dev|sources|javadoc)).jar
 
-          name: '[AE2${{ steps.get_ae2_version.outputs.ae2_version }}]MakeAE2Better-${{ steps.var.outputs.version }}.jar'
-          version: ${{ github.ref_name }}
+          name: MakeAE2Better-${{ steps.var.outputs.version }}
+          version: ${{ steps.var.outputs.version }}
           version-type: release
 
           loaders: |
             forge
             neoforge
           game-versions: |
-            [1.20.1,)
+            1.20.1,
           game-version-filter: none
           java: 17
           fail-mode: fail
