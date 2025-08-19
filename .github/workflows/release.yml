@@ -68,9 +68,9 @@ jobs:
           curseforge-id: 1305823
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
 
-          github-tag: ${{ github.ref_name }}
+          github-tag: ${{ steps.var.outputs.version }}
           github-generate-changelog: true
-          github-draft: false
+          github-draft: true
           github-prerelease: false
           github-commitish: 1.20.1
           github-discussion: Announcements
