@@ -8,7 +8,7 @@ public class ItemAndBlockLanguage {
 
     public static void init() {
         for (var item : BAE2Items.getItems()) {
-            add("item.betterae2." + item.id().getPath(), item.getChineseName(), item.getEnglishName());
+            add("item.makeae2better." + item.id().getPath(), item.getChineseName(), item.getEnglishName());
         }
 
         // for (var block : BAE2ABlocks.getBlocks()) {
