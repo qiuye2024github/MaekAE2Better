@@ -67,23 +67,32 @@ jobs:
         id: release
         uses: Kir-Antipov/mc-publish@v3.3.0
         with:
-          github-tag: ${{ github.ref_name }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          files: |
-            build/libs/!(*-@(dev|sources|javadoc)).jar
           modrinth-id: hLXzdHJ2
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
-          modrinth-changelog: ${{ github.event.head_commit.message }}
-          modrinth-game-versions: "1.20.1"
-          modrinth-release-type: releases
+
           curseforge-id: 1305823
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
-          curseforge-changelog: ${{ github.event.head_commit.message }}
-          curseforge-game-versions: "1.20.1"
-          curseforge-release-type: releases
+
+          github-tag: ${{ github.ref_name }}
+          github-generate-changelog: true
+          github-draft: false
+          github-prerelease: false
+          github-commitish: 1.20.1
+          github-discussion: Announcements
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+          files: |
+            build/libs/!(*-@(dev|sources|javadoc)).jar
+
           name: '[AE2${{ steps.get_ae2_version.outputs.ae2_version }}]MakeAE2Better-${{ steps.var.outputs.version }}.jar'
           version: ${{ github.ref_name }}
+          version-type: release
+
           loaders: |
             forge
             neoforge
+          game-versions: |
+            [1.20.1,)
+          game-version-filter: none
           java: 17
+          fail-mode: fail
