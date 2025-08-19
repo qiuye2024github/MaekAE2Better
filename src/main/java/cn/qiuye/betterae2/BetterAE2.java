@@ -3,7 +3,7 @@ package cn.qiuye.betterae2;
 import cn.qiuye.betterae2.api.MainCreativeMod;
 import cn.qiuye.betterae2.api.register.ModRegisterHandler;
 import cn.qiuye.betterae2.api.register.UpgradesInit;
-import cn.qiuye.betterae2.client.BetterAE2Client;
+import cn.qiuye.betterae2.client.MAEBClientRegistryHandler;
 import cn.qiuye.betterae2.integration.expatternprovider.EAECommonLoad;
 import cn.qiuye.betterae2.util.Platform;
 
@@ -33,7 +33,7 @@ public class BetterAE2 {
     public BetterAE2() {
         INSTANCE = this;
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> modEventBus.register(BetterAE2Client.INSTANCE));
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> modEventBus.register(MAEBClientRegistryHandler.INSTANCE));
         modEventBus.addListener((RegisterEvent event) -> {
             if (event.getRegistryKey().equals(Registries.CREATIVE_MODE_TAB)) {
                 MainCreativeMod.init(event.getVanillaRegistry());
@@ -55,7 +55,7 @@ public class BetterAE2 {
     }
 
     public void clientSetup(FMLClientSetupEvent event) {
-        BetterAE2Client.INSTANCE.init();
+        MAEBClientRegistryHandler.INSTANCE.init();
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {

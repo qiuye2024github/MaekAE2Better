@@ -4,11 +4,11 @@ dependencies {
     api(annotationProcessor("io.github.llamalad7:mixinextras-common:$project.mixinextras_version"))
     annotationProcessor 'org.spongepowered:mixin:0.8.7:processor'
 
-    modImplementation ("org.appliedenergistics:guideme:${project.guideme_version}")
-    modImplementation ("appeng:appliedenergistics2-forge:${project.ae2_version}")
+    modRuntimeOnly("org.appliedenergistics:guideme:${project.guideme_version}")
+    modImplementation("appeng:appliedenergistics2-forge:${project.ae2_version}")
 
     modImplementation("maven.modrinth:glodium:${project.glodium_version}-forge")
-    modImplementation("maven.modrinth:extended-ae:${project.extendedae_version}-forge") { transitive false }
+    modImplementation("curse.maven:ex-pattern-provider-892005:${project.extendedae_version}") { transitive false }
 
     modRuntimeOnly("mezz.jei:jei-$project.minecraft_version-forge-api:$project.jei_version") { transitive false }
     modRuntimeOnly("mezz.jei:jei-$project.minecraft_version-common-api:$project.jei_version") { transitive false }
