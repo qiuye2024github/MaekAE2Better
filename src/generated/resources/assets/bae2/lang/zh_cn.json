@@ -1,0 +1,7 @@
+{
+  "config.makeae2better.option.speed": "总线速度",
+  "config.makeae2better.option.speed.comment.0": "总线的速度原本的值乘以这个系数",
+  "config.screen.makeae2better": "MakeAE2Better",
+  "item.makeae2better.super_speed_card": "超速卡",
+  "tooltip.bae2.creative.tab": "更好的 AE2"
+}
