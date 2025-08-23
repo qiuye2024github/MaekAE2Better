@@ -1,5 +1,7 @@
 package cn.qiuye.betterae2.mixin.eae2;
 
+import cn.qiuye.betterae2.config.MAE2BConfig;
+
 import appeng.api.parts.IPartItem;
 import appeng.parts.automation.ExportBusPart;
 
@@ -23,7 +25,7 @@ public class PartExExportBusMixin extends ExportBusPart {
     public int getOperationsPerTick() {
         int EAEConfig = EPPConfig.busSpeed;
         int result = super.getOperationsPerTick();
-        int BAE2Config = 4096;
+        int BAE2Config = MAE2BConfig.INSTANCE.speed;
         return EAEConfig * result * BAE2Config;
     }
 }
