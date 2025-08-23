@@ -1,5 +1,6 @@
 package cn.qiuye.betterae2.datagen.providers;
 
+import cn.qiuye.betterae2.datagen.providers.langs.ConfigLanguage;
 import cn.qiuye.betterae2.datagen.providers.langs.ItemAndBlockLanguage;
 import cn.qiuye.betterae2.datagen.providers.langs.TooltipLanguage;
 
@@ -67,7 +68,7 @@ public final class LocalizationProvider implements DataProvider {
         // GuiLanguage.init();
         TooltipLanguage.init();
         // MiscLanguage.init();
-        // ConfigLanguage.init();
+        ConfigLanguage.init();
         // KeyBindings.init();
         return CompletableFuture.allOf(save(cached, LangCode.EN_US), save(cached, LangCode.ZH_CN));
     }
