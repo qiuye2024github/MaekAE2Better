@@ -24,5 +24,5 @@ public class MAE2BConfig {
     @Configurable
     @Configurable.Comment(value = "speed", localize = true)
     @Configurable.Range(min = 1, max = 2147483647)
-    public int speed = 4096;
+    public int speed = 512;
 }

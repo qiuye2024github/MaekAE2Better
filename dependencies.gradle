@@ -4,7 +4,7 @@ dependencies {
     api(annotationProcessor("io.github.llamalad7:mixinextras-common:$project.mixinextras_version"))
     annotationProcessor 'org.spongepowered:mixin:0.8.7:processor'
 
-    jarJar(modImplementation("dev.toma.configuration:configuration-1.20.1:$project.configuration_version"))
+    jarJar(modApi("dev.toma.configuration:configuration-1.20.1:$project.configuration_version"))
 
     modRuntimeOnly("org.appliedenergistics:guideme:${project.guideme_version}")
     modImplementation("appeng:appliedenergistics2-forge:${project.ae2_version}")
