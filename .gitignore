@@ -21,6 +21,7 @@ classes/
 .architectury-transformer/debug.log
 src/generated
 
+!src/generated/resources/assets/bae2/lang
 *.patch
 *.DS_Store
 
