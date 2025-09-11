@@ -10,7 +10,7 @@ import com.glodblock.github.extendedae.config.EPPConfig;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 
-@Mixin(PartExImportBus.class)
+@Mixin(value = PartExImportBus.class, priority = 9999)
 public class PartExImportBusMixin extends ImportBusPart {
 
     public PartExImportBusMixin(IPartItem<?> partItem) {
