@@ -70,8 +70,6 @@ jobs:
 
           github-tag: ${{ github.ref_name }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          files: |
-            build/libs/!(*-@(dev|sources|javadoc)).jar
 
           files: |
             build/libs/!(*-@(dev|sources|javadoc)).jar
