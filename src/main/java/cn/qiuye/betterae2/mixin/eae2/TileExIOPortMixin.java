@@ -20,7 +20,7 @@ import com.glodblock.github.extendedae.util.Ae2Reflect;
 import com.glodblock.github.glodium.util.GlodUtil;
 import org.spongepowered.asm.mixin.*;
 
-@Mixin(TileExIOPort.class)
+@Mixin(value = TileExIOPort.class, priority = 9999)
 public class TileExIOPortMixin extends IOPortBlockEntity implements IUpgradeableObject {
 
     @Mutable

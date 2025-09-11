@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Unique;
 
-@Mixin(IOBusPart.class)
+@Mixin(value = IOBusPart.class, priority = 9999)
 public class IOBusPartMixin implements IUpgradeableObject {
 
     /**
