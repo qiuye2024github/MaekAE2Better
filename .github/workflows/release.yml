@@ -73,9 +73,6 @@ jobs:
           files: |
             build/libs/!(*-@(dev|sources|javadoc)).jar
 
-          files: |
-            build/libs/!(*-@(dev|sources|javadoc)).jar
-
           name: MakeAE2Better-${{ steps.var.outputs.version }}
           version: ${{ steps.var.outputs.version }}
           version-type: release
