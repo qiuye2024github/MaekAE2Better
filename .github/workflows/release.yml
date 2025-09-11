@@ -68,11 +68,10 @@ jobs:
           curseforge-id: 1305823
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
 
-          github-tag: ${{ steps.var.outputs.version }}
-          github-generate-changelog: true
-          github-draft: true
-          github-prerelease: false
+          github-tag: ${{ github.ref_name }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          files: |
+            build/libs/!(*-@(dev|sources|javadoc)).jar
 
           files: |
             build/libs/!(*-@(dev|sources|javadoc)).jar
