@@ -78,9 +78,9 @@ jobs:
           PR_LIST=$(gh pr list --state merged --base 1.20.1 --limit 50 --json number,title,url,mergeCommit --jq '.[] | "• #\(.number) - \(.title) (\(.url))"')
           
           if [ -z "$PR_LIST" ]; then
-            RELEASE_NOTES="## 发布说明\n\n本次发布包含常规更新和优化。"
+            RELEASE_NOTES="## 发布说明\n本次发布包含常规更新和优化。"
           else
-            RELEASE_NOTES="## 发布说明\n\n### 包含的PR更改:\n\n$PR_LIST"
+            RELEASE_NOTES="## 发布说明\n### 包含的PR更改:\n$PR_LIST"
           fi
           
           # 存储发布说明
