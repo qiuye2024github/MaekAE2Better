@@ -118,11 +118,11 @@ jobs:
           draft: false
           prerelease: false
 
-      - name: Download artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: jar
-          path: ./downloaded-jars
+#      - name: Download artifacts
+#        uses: actions/download-artifact@v4
+#        with:
+#          name: jar
+#          path: ./downloaded-jars
 
 #      - name: Upload JAR to Release
 #        uses: actions/upload-release-asset@v1
