@@ -16,9 +16,12 @@ jobs:
       RELEASE_VERSION: ${{ github.ref_name }}
     permissions:
       contents: write
+      pull-requests: read
     steps:
-      - name: checkout
+      - name: Checkout code with full history
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # 获取完整提交历史，用于比较tag
 
       - name: validate gradle wrapper
         uses: gradle/actions/wrapper-validation@v3
@@ -58,18 +61,74 @@ jobs:
           MESSAGE=$(ls build/libs/* | grep sources.jar -v | grep shadow.jar -v | grep slim.jar -v | awk -F '${{ steps.properties.outputs.mod_id }}-|.jar' '{print $2}')
           echo version=$MESSAGE >> $GITHUB_OUTPUT
 
+      - name: Get PR information since last release
+        id: pr_info
+        run: |
+          LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+          
+          if [ -z "$LATEST_TAG" ]; then
+            PR_QUERY="base:1.20.1 is:merged"
+            echo "没有找到之前的tag，将包含所有已合并的PR"
+          else
+            PR_QUERY="base:1.20.1 is:merged merged:>$(git log -1 --format=%cd --date=short $LATEST_TAG)"
+            echo "上一个tag: $LATEST_TAG"
+          fi
+          
+          PR_LIST=$(gh pr list --state merged --base 1.20.1 --limit 50 --json number,title,url,mergeCommit --jq '.[] | "• #\(.number) - \(.title) (\(.url))"')
+          
+          if [ -z "$PR_LIST" ]; then
+            RELEASE_NOTES="## 发布说明\n\n本次发布包含常规更新和优化。"
+          else
+            RELEASE_NOTES="## 发布说明\n\n### 包含的PR更改:\n\n$PR_LIST"
+          fi
+          
+          echo "RELEASE_NOTES<<EOF" >> $GITHUB_OUTPUT
+          echo "$RELEASE_NOTES" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          
+          PR_COUNT=$(echo "$PR_LIST" | wc -l)
+          echo "pr_count=$PR_COUNT" >> $GITHUB_OUTPUT
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref_name }}
+          release_name: MakeAE2Better-${{ steps.var.outputs.version }}
+          body: |
+            ${{ steps.pr_info.outputs.RELEASE_NOTES }}
+            
+            **构建信息:**
+            - 版本: ${{ steps.var.outputs.version }}
+            - Minecraft: 1.20.1
+            - 加载器: Forge/NeoForge
+          draft: false
+          prerelease: false
+
+      - name: Upload JAR to Release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: build/libs/!(*-@(dev|sources|javadoc)).jar
+          asset_name: MakeAE2Better-${{ steps.var.outputs.version }}.jar
+          asset_content_type: application/java-archive
+
       - name: Release
         id: release
         uses: Kir-Antipov/mc-publish@v3.3.0
         with:
+
           modrinth-id: hLXzdHJ2
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
 
           curseforge-id: 1305823
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
-
-          github-tag: ${{ github.ref_name }}
-          github-token: ${{ github.token }}
 
           files: |
             build/libs/!(*-@(dev|sources|javadoc)).jar
