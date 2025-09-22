@@ -1,15 +1,13 @@
-name: Auto publish for Maek AE2 Better
+name: Release with PR Notes
+
 on:
-  pull_request:
-    branches:
-    - 1.20.1
-    paths-ignore:
-      - 'README.md'
-      - '.github/**'
-  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'  # 当推送以v开头的tag时触发发布
+  workflow_dispatch:  # 允许手动触发
 
 jobs:
-  build:
+  release:
     runs-on: ubuntu-latest
     env:
       VERSION: ${{ github.ref_name }}
@@ -23,33 +21,23 @@ jobs:
         with:
           fetch-depth: 0  # 获取完整提交历史，用于比较tag
 
-      - name: validate gradle wrapper
-        uses: gradle/actions/wrapper-validation@v3
-
       - name: Setup Java 17
         uses: actions/setup-java@v4.2.1
         with:
           distribution: zulu
           java-version: 17
 
-      - name: make gradle wrapper executable
-        if: ${{ runner.os != 'Windows' }}
+      - name: Make gradle wrapper executable
         run: chmod +x ./gradlew
 
       - name: Build with Gradle
         uses: gradle/actions/setup-gradle@v3
 
-      - name: spotlessApply
-        run: ./gradlew spotlessApply
-
-      - name: RunData
-        run: ./gradlew rundata
-
       - name: Build
         run: ./gradlew build
 
       - name: Read Properties
-        id: 'properties'
+        id: properties
         uses: christian-draeger/read-properties@1.1.1
         with:
           path: gradle.properties
@@ -64,16 +52,20 @@ jobs:
       - name: Get PR information since last release
         id: pr_info
         run: |
+          # 获取最近的tag（上一个发布版本）
           LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
           
           if [ -z "$LATEST_TAG" ]; then
+            # 如果没有找到tag，获取所有PR
             PR_QUERY="base:1.20.1 is:merged"
             echo "没有找到之前的tag，将包含所有已合并的PR"
           else
+            # 获取上一个tag之后的提交
             PR_QUERY="base:1.20.1 is:merged merged:>$(git log -1 --format=%cd --date=short $LATEST_TAG)"
             echo "上一个tag: $LATEST_TAG"
           fi
           
+          # 使用GitHub CLI获取PR列表
           PR_LIST=$(gh pr list --state merged --base 1.20.1 --limit 50 --json number,title,url,mergeCommit --jq '.[] | "• #\(.number) - \(.title) (\(.url))"')
           
           if [ -z "$PR_LIST" ]; then
@@ -82,10 +74,12 @@ jobs:
             RELEASE_NOTES="## 发布说明\n\n### 包含的PR更改:\n\n$PR_LIST"
           fi
           
+          # 存储发布说明
           echo "RELEASE_NOTES<<EOF" >> $GITHUB_OUTPUT
           echo "$RELEASE_NOTES" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
           
+          # 存储PR数量用于后续步骤
           PR_COUNT=$(echo "$PR_LIST" | wc -l)
           echo "pr_count=$PR_COUNT" >> $GITHUB_OUTPUT
         env:
@@ -119,8 +113,7 @@ jobs:
           asset_name: MakeAE2Better-${{ steps.var.outputs.version }}.jar
           asset_content_type: application/java-archive
 
-      - name: Release
-        id: release
+      - name: Publish to Mod Platforms
         uses: Kir-Antipov/mc-publish@v3.3.0
         with:
 
@@ -141,7 +134,7 @@ jobs:
             forge
             neoforge
           game-versions: |
-           1.20.1
+            1.20.1
           game-version-filter: none
           java: 17
           fail-mode: fail
