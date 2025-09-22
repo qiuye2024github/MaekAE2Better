@@ -53,8 +53,10 @@ jobs:
       - name: Get Version
         id: var
         run: |
-          MESSAGE=$(ls build/libs/* | grep sources.jar -v | grep shadow.jar -v | grep slim.jar -v | awk -F '${{ steps.properties.outputs.mod_id }}-|.jar' '{print $2}')
-          echo version=$MESSAGE >> $GITHUB_OUTPUT
+          # 直接从 gradle.properties 文件中提取 mod_version
+          VERSION=$(grep '^mod_version=' gradle.properties | cut -d'=' -f2)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "提取的版本号: $VERSION"
 
       - name: Get PR information since last release
         id: pr_info
@@ -116,7 +118,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./build/libs/!(*-@(dev|sources|javadoc)).jar
+          asset_path: build/libs/!(*-@(dev|sources|javadoc)).jar
           asset_name: makeae2better-${{ steps.var.outputs.version }}.jar
           asset_content_type: application/java-archive
 
