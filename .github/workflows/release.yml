@@ -41,7 +41,7 @@ jobs:
 
       - name: Read Properties
         id: properties
-        uses: christian-draeger/read-properties@v1.1.1
+        uses: christian-draeger/read-properties@1.1.1
         with:
           path: gradle.properties
           properties: 'mod_id mod_name'
@@ -112,7 +112,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: build/libs/!(*-@(dev|sources|javadoc)).jar
+          asset_path: build/libs/*.jar
           asset_name: makeae2better-${{ steps.var.outputs.version }}.jar
           asset_content_type: application/java-archive
 
