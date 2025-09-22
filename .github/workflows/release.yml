@@ -41,7 +41,7 @@ jobs:
 
       - name: Read Properties
         id: properties
-        uses: christian-draeger/read-properties@1.1.1
+        uses: christian-draeger/read-properties@v1.1.1
         with:
           path: gradle.properties
           properties: 'mod_id mod_name'
@@ -88,16 +88,6 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload JAR to Release
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: build/libs/!(*-@(dev|sources|javadoc)).jar  # 使用相同的过滤规则
-          asset_name: makeae2better-${{ steps.var.outputs.version }}.jar
-          asset_content_type: application/java-archive
-
       - name: Create GitHub Release
         id: create_release
         uses: actions/create-release@v1
@@ -122,27 +112,22 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: build/libs/*.jar
+          asset_path: build/libs/!(*-@(dev|sources|javadoc)).jar
           asset_name: makeae2better-${{ steps.var.outputs.version }}.jar
           asset_content_type: application/java-archive
 
       - name: Publish to Mod Platforms
         uses: Kir-Antipov/mc-publish@v3.3.0
         with:
-
           modrinth-id: hLXzdHJ2
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
-
           curseforge-id: 1305823
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
-
           files: |
             build/libs/!(*-@(dev|sources|javadoc)).jar
-
           name: MakeAE2Better-${{ steps.var.outputs.version }}
           version: ${{ steps.var.outputs.version }}
           version-type: release
-
           loaders: |
             forge
             neoforge
