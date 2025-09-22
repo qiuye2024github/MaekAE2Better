@@ -1,12 +1,11 @@
 package cn.qiuye.betterae2.mixin.eae2;
 
-import cn.qiuye.betterae2.config.MAE2BConfig;
+import cn.qiuye.betterae2.utils.NumberUtil;
 
 import appeng.api.parts.IPartItem;
 import appeng.parts.automation.ImportBusPart;
 
 import com.glodblock.github.extendedae.common.parts.PartExImportBus;
-import com.glodblock.github.extendedae.config.EPPConfig;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 
@@ -23,9 +22,7 @@ public class PartExImportBusMixin extends ImportBusPart {
      */
     @Overwrite(remap = false)
     protected int getOperationsPerTick() {
-        int EAEConfig = EPPConfig.busSpeed;
         int result = super.getOperationsPerTick();
-        int BAE2Config = MAE2BConfig.INSTANCE.speed;
-        return EAEConfig * result * BAE2Config;
+        return NumberUtil.ConvertLongToIntSaturating(result);
     }
 }

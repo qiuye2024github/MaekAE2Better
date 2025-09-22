@@ -6,7 +6,7 @@ import cn.qiuye.betterae2.api.register.UpgradesInit;
 import cn.qiuye.betterae2.client.MAEBClientRegistryHandler;
 import cn.qiuye.betterae2.config.MAE2BConfig;
 import cn.qiuye.betterae2.integration.expatternprovider.EAECommonLoad;
-import cn.qiuye.betterae2.util.Platform;
+import cn.qiuye.betterae2.utils.Platform;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;

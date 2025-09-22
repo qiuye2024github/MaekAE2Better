@@ -1,4 +1,4 @@
-package cn.qiuye.betterae2.util;
+package cn.qiuye.betterae2.utils;
 
 import net.minecraftforge.fml.ModList;
 
