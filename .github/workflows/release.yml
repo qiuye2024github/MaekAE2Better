@@ -43,6 +43,12 @@ jobs:
       - name: Build
         run: ./gradlew build
 
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: jar
+          path: ./build/libs/!(*-@(dev|sources|javadoc)).jar
+
       - name: Read Properties
         id: properties
         uses: christian-draeger/read-properties@1.1.1
@@ -118,7 +124,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: build/libs/!(*-@(dev|sources|javadoc)).jar
+          asset_path: jar/*
           asset_name: makeae2better-${{ steps.var.outputs.version }}.jar
           asset_content_type: application/java-archive
 
